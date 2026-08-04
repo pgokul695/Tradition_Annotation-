@@ -1,0 +1,3 @@
+import React from 'react'; import {createRoot} from 'react-dom/client'; import {BrowserRouter,NavLink,Route,Routes} from 'react-router-dom';
+import Dashboard from './pages/Dashboard'; import Gallery from './pages/Gallery'; import Review from './pages/Review'; import './styles.css';
+function App(){return <BrowserRouter><header><h1>Tradition Annotation</h1><nav><NavLink to="/">Dashboard</NavLink><NavLink to="/gallery">Gallery</NavLink></nav></header><main><Routes><Route path="/" element={<Dashboard/>}/><Route path="/gallery" element={<Gallery/>}/><Route path="/review/:id" element={<Review/>}/></Routes></main></BrowserRouter>}; createRoot(document.getElementById('root')!).render(<App/>);
