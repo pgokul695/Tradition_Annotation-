@@ -1,4 +1,6 @@
-const API = '/api';
+// Production talks directly to the Cloudflare-tunnel backend; local Vite keeps
+// using its /api proxy when no production value is supplied.
+const API = import.meta.env.VITE_API_BASE_URL || '/api';
 
 export const get = (path: string) =>
   fetch(API + path).then(r => r.json());

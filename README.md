@@ -48,6 +48,8 @@ npm run dev
 
 Open `https://t3.gokulp.online` (or `http://localhost:5003`), press **Ingest dataset**, then use **Run AI** in the gallery. The API is available at `https://t2.gokulp.online/docs` (or `http://localhost:5002/docs`).
 
+For the production frontend, `frontend/.env.production` points API calls directly to `https://t2.gokulp.online/api`, so a second reverse proxy is not required when using Cloudflare Tunnel.
+
 ## Workflow
 
 1. `POST /api/ingest` loads CSV rows idempotently and reports missing CSV/file matches.
