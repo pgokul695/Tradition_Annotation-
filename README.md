@@ -64,3 +64,18 @@ alembic upgrade head
 ```
 
 Set `DATABASE_URL` to a PostgreSQL SQLAlchemy URL to move off SQLite; model queries do not use SQLite-only database features.
+
+## Repair a failed annotation batch
+
+If Gemini returns a transient error (such as an API quota response), failed rows remain `pending` and an `annotation_error` history record is stored. To repair a database created by an older version that marked empty rows as `needs_review`, run:
+
+```bash
+cd backend
+.venv/bin/python scripts/repair_unannotated_status.py
+```
+
+## Configure annotation models
+
+`backend/models.json` lists the selectable Gemini models and references each key by environment-variable name only. Add `GEMINI_API_KEY_A`, `GEMINI_API_KEY_B`, or other variables to `backend/.env`, then add matching model entries in `models.json`. `GET /api/models` exposes only model IDs and labels; it never returns keys.
+
+Configured IDs are checked against Gemini's live model list when `/api/models` is called and before a batch starts. A bad resource name is rejected before queueing; run logs and `annotation_error` history values include the provider error type/status (for example `ClientError [404]` versus a quota `RESOURCE_EXHAUSTED`). Batches are processed sequentially, one image request and database write at a time.
