@@ -1,5 +1,6 @@
 backend/.env
 backend/*.db
+backend/.cache/
 backend/.venv/
 .venv/
 backend/**/__pycache__/

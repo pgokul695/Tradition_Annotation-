@@ -76,6 +76,6 @@ cd backend
 
 ## Configure annotation models
 
-`backend/models.json` lists the selectable Gemini models and references each key by environment-variable name only. Add `GEMINI_API_KEY_A`, `GEMINI_API_KEY_B`, or other variables to `backend/.env`, then add matching model entries in `models.json`. `GET /api/models` exposes only model IDs and labels; it never returns keys.
+`backend/models.json` lists only API-key environment variable names and the discovery cache TTL. `GET /api/models` dynamically discovers stable Gemini/Gemma understanding models available to those keys, probes each candidate once with a tiny image, and returns only confirmed vision-capable IDs and labels—never key values. Results live in the ignored `backend/.cache/vision_models.json` cache for 24 hours by default; call `POST /api/models/refresh` to re-probe immediately.
 
-Configured IDs are checked against Gemini's live model list when `/api/models` is called and before a batch starts. A bad resource name is rejected before queueing; run logs and `annotation_error` history values include the provider error type/status (for example `ClientError [404]` versus a quota `RESOURCE_EXHAUSTED`). Batches are processed sequentially, one image request and database write at a time.
+Deprecated Gemini 2.0 models and embedding/TTS/image-generation/preview families are excluded. The default is selected dynamically from the discovered stable Gemini Flash models. Run logs and `annotation_error` history values include the provider error type/status (for example `ClientError [404]` versus a quota `RESOURCE_EXHAUSTED`). Batches are processed sequentially, one image request and database write at a time.

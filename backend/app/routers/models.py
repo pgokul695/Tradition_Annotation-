@@ -1,19 +1,15 @@
-import logging
-from fastapi import APIRouter
-from ..model_config import configured_models, resolve_model, validate_model
+from fastapi import APIRouter, HTTPException
+from ..model_config import configured_models, discover_models
 
 router = APIRouter(prefix="/api", tags=["models"])
-logger = logging.getLogger(__name__)
 
 @router.get("/models")
 def list_models():
-    models = []
-    for public_model in configured_models():
-        valid, error = True, None
-        try:
-            validate_model(resolve_model(public_model["id"]))
-        except (ValueError, RuntimeError) as exc:
-            valid, error = False, str(exc)
-            logger.error("Configured model is unavailable: id=%s error=%s", public_model["id"], error)
-        models.append({**public_model, "available": valid, "error": error})
-    return {"models": models}
+    return {"models": configured_models()}
+
+@router.post("/models/refresh")
+def refresh_models():
+    try:
+        return {"models": [{"id": item["id"], "label": item["label"], "provider": item["provider"], "vision_capable": True} for item in discover_models(refresh=True)]}
+    except Exception as exc:
+        raise HTTPException(502, f"Model discovery failed: {exc}") from exc

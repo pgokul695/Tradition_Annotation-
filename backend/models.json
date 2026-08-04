@@ -1,12 +1,4 @@
 {
-  "default_model": "gemini-flash-lite",
-  "models": [
-    {
-      "id": "gemini-flash-lite",
-      "label": "Gemini Flash Lite",
-      "provider": "gemini",
-      "model_name": "gemini-2.0-flash-lite",
-      "api_key_env": "GEMINI_API_KEY"
-    }
-  ]
+  "api_key_envs": ["GEMINI_API_KEY", "GEMINI_API_KEY_A", "GEMINI_API_KEY_B"],
+  "cache_ttl_seconds": 86400
 }
