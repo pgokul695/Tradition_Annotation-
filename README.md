@@ -1,6 +1,16 @@
 # Tradition Annotation Pipeline
 
-Local review tool for AI-assisted annotations of the Indian traditional-art dataset. Existing `data/metadata.csv` is never re-derived: it is ingested as the canonical `images` record, and annotations/history are stored separately.
+Local review tool for AI-assisted, domain-grounded annotations of an Indian traditional-art dataset. The system converts visual content into a structured annotation schema designed around tradition-sensitive artwork analysis, followed by human verification and provenance tracking.
+
+Existing `data/metadata.csv` is never re-derived: it is ingested as the canonical `images` record, and annotations/history are stored separately.
+
+## Novelty and Research Basis
+
+The pipeline is designed specifically for **tradition-sensitive analysis of Indian traditional art**, rather than as a generic image-annotation tool. The annotation schema was developed based on my understanding of Erwin Panofsky's *Studies in Iconology: Humanistic Themes in the Art of the Renaissance* (1939), particularly its distinction between the descriptive, iconographic, and formal dimensions of an artwork. This framework was operationalized into a machine-readable schema that separates scene content, objects, people, animals, religious elements, colors, and patterns, allowing the resulting dataset to preserve distinctions between what is depicted, what carries semantic or cultural meaning, and how the artwork is visually represented.
+
+The computational components of the pipeline—vision-language-model annotation, structured outputs, and human-in-the-loop verification—have precedents in existing annotation research. The contribution here is their **domain-specific formulation and integration for Indian traditional art**: a domain-informed annotation schema is used to guide VLM generation, every generated field remains human-correctable, reviewer confidence is exposed for review prioritization, and field-level provenance records preserve the transition from AI-generated to human-verified annotations. The resulting workflow is therefore intended not merely to generate captions, but to construct a **structured, auditable, and tradition-sensitive dataset** suitable for downstream visual assessment and research.
+
+The design is also informed by established work on VLM-assisted annotation, human-LLM collaborative annotation, structured visual reasoning, and human-in-the-loop quality control. In particular, the system follows the principle that model output should be treated as an annotation draft rather than automatically trusted as ground truth.
 
 ## Dataset layout (not stored in Git)
 
